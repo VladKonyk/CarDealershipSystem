@@ -139,12 +139,12 @@
       <widget class="QComboBox" name="cbType">
        <item>
         <property name="text">
-         <string>ДВЗ</string>
+         <string>Електро</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Електро</string>
+         <string>ДВЗ</string>
         </property>
        </item>
        <item>

@@ -17,6 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("Головне меню автосалону");
 
     manager.loadInventory(); // Автоматичне завантаження з файлу при старті програми
+    if (!manager.loadInventory()) {
+        QMessageBox::critical(this, "Помилка", "Критична помилка: Файл бази даних не знайдено!");
+        QCoreApplication::quit();
+    }
 }
 
 MainWindow::~MainWindow()

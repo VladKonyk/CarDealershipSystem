@@ -7,6 +7,7 @@
 #include <memory>
 #include <fstream>
 #include <algorithm>
+#include <iostream> // Додано для використання cout та cerr
 
 using namespace std;
 
@@ -77,7 +78,7 @@ public:
 
     void saveInventory() const {
         ofstream outFile(databaseFile);
-        if (!outFile) {
+        if (!outFile.is_open()) {
             cerr << "Помилка відкриття файлу для запису!\n";
             return;
         }
@@ -88,13 +89,17 @@ public:
         cout << "Дані успішно збережено.\n";
     }
 
-    void loadInventory() {
+    bool loadInventory() {
         ifstream inFile(databaseFile);
-        if (!inFile) return; 
+
+        if (!inFile.is_open()) {
+            cerr << "[Помилка] Файл бази даних '" << databaseFile << "' не знайдено!\n";
+            return false;
+        }
 
         inventory.clear();
         string type;
-        
+
         while (inFile >> type) {
             int id, year;
             string make, model;
@@ -106,7 +111,7 @@ public:
                 int battery, range;
                 inFile >> battery >> range;
                 inventory.push_back(make_shared<ElectricCar>(id, make, model, year, price, battery, range));
-            } 
+            }
             else if (type == "Combustion") {
                 double engineVol;
                 string fuel;
@@ -122,5 +127,6 @@ public:
         }
         inFile.close();
         cout << "Дані успішно завантажено з файлу.\n";
+        return true; // Все пройшло успішно
     }
 };
